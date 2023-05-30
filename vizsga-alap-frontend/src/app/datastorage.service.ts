@@ -78,6 +78,47 @@ export class DatastorageService {
         })
       )
       .subscribe();
-  }*/
+  }
+
+  updateSzakdoga(szakdoga: Szakdoga) {
+    return this.http
+      .put<number>(URL + 'szakdoga/' + szakdoga.id, {
+        szakdogaNev: szakdoga.szakdogaNev,
+        githublink: szakdoga.githublink,
+        oldallink: szakdoga.oldallink,
+        tagokneve: szakdoga.tagokneve,
+      })
+      .pipe(
+        tap({
+          next: (res) => {
+            this.szakdogaService.updateSzakdoga(szakdoga);
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        })
+      )
+      .subscribe();
+  }
+
+  deleteSzakdoga(id: number) {
+    console.log(URL + 'szakdoga/' + id);
+
+    return this.http
+      .delete<any>(URL + 'szakdoga/' + id)
+      .pipe(
+        tap({
+          next: (res) => {
+            //console.log('delete response: ' + res);
+            this.szakdogaService.deleteSzakdoga(id);
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        })
+      )
+      .subscribe();
+  }
+  */
 }
 //export const URL = 'https://localhost:7233/api/';

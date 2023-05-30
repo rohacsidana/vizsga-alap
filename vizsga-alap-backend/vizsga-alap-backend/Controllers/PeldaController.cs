@@ -36,6 +36,23 @@ namespace vizsga_alap_backend.Controllers
             return Ok(await _context.Ingatlanoks.Include(x=>x.Kat).ToListAsync());
         }
 
+     [EnableCors]
+        [HttpPut("{id}")]
+
+        public async Task<ActionResult<List<Models.NewSzakdoga>>> UpdateSzakdoga(int id,Models.NewSzakdoga szakdoga)
+        {
+            var szakdogaToUpdate = await _context.Szakdogas.FindAsync(id);
+            if (szakdogaToUpdate == null) return BadRequest("Nem létezik ez a szakdoga");
+           
+            szakdogaToUpdate.SzakdogaNev = szakdoga.SzakdogaNev;
+            szakdogaToUpdate.Tagokneve = szakdoga.Tagokneve;
+            szakdogaToUpdate.Oldallink = szakdoga.Oldallink;
+            szakdogaToUpdate.Githublink = szakdoga.Githublink;
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Szakdogas.ToListAsync());
+        }
+
         [EnableCors]
         [HttpDelete]
 
